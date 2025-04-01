@@ -4,11 +4,11 @@
     
     - name: Verificar conexão com os hosts
       ping:
-    
-    - name: Print all available facts
+
+    - name: Exibir todos os fatos disponíveis
       ansible.builtin.debug:
         var: ansible_facts
-  
+
     - name: Criar arquivo de teste
       copy:
         dest: /tmp/arquivo_criado_pelo_awx.txt
