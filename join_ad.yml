@@ -1,0 +1,33 @@
+---
+- name: Join Linux servers to AD
+  hosts: all
+  become: yes
+  vars:
+    ad_user: Bruno
+    ad_password: "Mudar@123"
+    ad_domain: maestriatec.local
+    ad_group: "Domain Admins"  # Ajuste conforme o grupo desejado no AD
+
+  tasks:
+    - name: Install required packages (SSSD, realmd, etc.)
+      apt:
+        name:
+          - sssd
+          - realmd
+          - adcli
+          - samba-common
+          - packagekit
+          - krb5-user
+        state: present
+      when: ansible_os_family == 'Debian' or ansible_os_family == 'RedHat'
+
+    - name: Join the machine to the domain
+      command: realm join --user={{ ad_user }} --password={{ ad_password }} {{ ad_domain }}
+      when: ansible_os_family == 'Debian' or ansible_os_family == 'RedHat'
+
+    - name: Configure sudoers file for AD users
+      lineinfile:
+        path: /etc/sudoers
+        line: "%{{ ad_group }} ALL=(ALL) ALL"
+        validate: visudo -cf %s
+      when: ansible_os_family == 'Debian' or ansible_os_family == 'RedHat'
