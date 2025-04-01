@@ -1,0 +1,25 @@
+---
+- name: Atualizar Sistemas (Ubuntu, Debian, Rocky, Alma)
+  hosts: all
+  tasks:
+    - name: Atualizar o cache do APT (Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Atualizar o sistema (APT - Debian/Ubuntu)
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Atualizar o cache do DNF (Rocky/Alma Linux)
+      ansible.builtin.dnf:
+        update_cache: yes
+      when: ansible_distribution in ["Rocky", "Alma"]
+
+    - name: Atualizar o sistema (DNF - Rocky/Alma Linux)
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      when: ansible_distribution in ["Rocky", "Alma"]
