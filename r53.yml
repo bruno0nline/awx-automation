@@ -1,0 +1,18 @@
+---
+
+- name: Starting deploy
+  collections:
+    - community.aws
+  hosts: all
+  tasks:
+    - name: Route53 | Create a A Record
+      community.aws.route53:
+        aws_access_key: AKIAXF6BPVZG5L7OFBHK
+        aws_secret_key: 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
+        command: create
+        hosted_zone_id: "Z10295662V8DKR74AYF3B"
+        record: "{{ record }}.cafecomrock.com.br"
+        type: A
+        value: "{{ ip }}"
+
+...
