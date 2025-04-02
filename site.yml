@@ -8,8 +8,3 @@
     - name: Exibir todos os fatos disponíveis
       ansible.builtin.debug:
         var: ansible_facts
-
-    - name: Criar arquivo de teste
-      copy:
-        dest: /tmp/arquivo_criado_pelo_awx.txt
-        content: "Esse arquivo foi criado via AWX com sucesso em {{ ansible_hostname }}\n"
